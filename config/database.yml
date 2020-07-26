@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: utf-8
+  host: <%= ENV['POSTGRES_HOST'] %>
+  username: postgres
+  password: ""
+  pool: <%= ENV['DATABASE_POOL'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
+  sslmode: prefer
+  statement_limit: <%= (ENV.fetch('DATABASE_STATEMENT_LIMIT') { 1_000 }).to_i %>
+
+development:
+  <<: *default
+  database: blog_tdd_development
+
+test:
+  <<: *default
+  database: blog_tdd_test
+
+production:
+  <<: *default
+  database: blog_tdd_production
+  username: blog_tdd
+  password: <%= ENV['BLOG_TDD_DATABASE_PASSWORD'] %>
